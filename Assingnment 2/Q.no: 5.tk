@@ -1,0 +1,32 @@
+package require Tk
+
+listbox .lb1 -selectmode single
+listbox .lb2 -selectmode single
+
+foreach item {Apple Orange Mango Banana Grapes} {
+    .lb1 insert end $item
+}
+
+proc move1to2 {} {
+    set sel [.lb1 curselection]
+    if {$sel ne ""} {
+        set val [.lb1 get $sel]
+        .lb2 insert end $val
+        .lb1 delete $sel
+    }
+}
+
+proc move2to1 {} {
+    set sel [.lb2 curselection]
+    if {$sel ne ""} {
+        set val [.lb2 get $sel]
+        .lb1 insert end $val
+        .lb2 delete $sel
+    }
+}
+
+bind .lb1 <<ListboxSelect>> {move1to2}
+bind .lb2 <<ListboxSelect>> {move2to1}
+
+pack .lb1 -side left -padx 20 -pady 20
+pack .lb2 -side right -padx 20 -pady 20
